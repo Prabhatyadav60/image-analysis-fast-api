@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+pillow
+pytesseract
+ultralytics
+torch
+requests
