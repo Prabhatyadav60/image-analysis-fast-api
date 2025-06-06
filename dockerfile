@@ -1,4 +1,3 @@
-
 # Use a minimal base image
 FROM python:3.10-slim
 
@@ -29,8 +28,8 @@ RUN python -c "from ultralytics import YOLO; YOLO('yolov8s.pt')"
 # Copy application code
 COPY . .
 
-# Expose FastAPI default port
+# Expose FastAPI default port (for local testing; Render will override with $PORT)
 EXPOSE 8000
 
-# Run the FastAPI app using Uvicorn
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Run the FastAPI app using Uvicorn, binding to 0.0.0.0 and using Render’s $PORT if set
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}"]
