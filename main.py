@@ -8,7 +8,7 @@ from PIL import Image
 import pytesseract
 from ultralytics import YOLO
 import requests
-from dotenv import load_dotenv
+
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
