@@ -5,7 +5,7 @@ pytesseract
 ultralytics
 torch
 requests
-
+python-multipart
 
 
 
