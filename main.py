@@ -20,7 +20,28 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-model = YOLO("yolov8s.pt")
+
+
+from ultralytics import YOLO
+import os
+
+# Check if model is already cached
+def load_yolo_model():
+    model_name = "yolov8s.pt"
+    cache_dir = os.path.expanduser("~/.cache/ultralytics")
+    model_path = os.path.join(cache_dir, "models", model_name)
+
+    if not os.path.exists(model_path):
+        print("Model not found locally. Downloading...")
+    else:
+        print("Model found in cache. Loading...")
+
+    # This will automatically download if not present
+    model = YOLO(model_name)
+    return model
+
+model = load_yolo_model()
+
 
 
 GEMINI_API_KEY = os.getenv("GOOGLE_API_KEY")
@@ -80,7 +101,7 @@ def call_gemini(text: str, detections: Any) -> str:
         "You are an image-analysis assistant. "
         "Below is the OCR-extracted text from an uploaded image, "
         "and a summary of all detected objects. "
-        "Provide a long extended detailed with all details, human-readable summary of what’s in this image.\n\n"
+        "Provide a detailed , human-readable summary of what’s in this image.\n\n"
         f"OCR text:\n\"\"\"\n{text}\n\"\"\"\n\n"
         f"{detection_summary}\n\n"
         "Respond with  paragraph describing the content of the image."
